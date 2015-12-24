@@ -7,16 +7,14 @@
 //
 
 #import "WZXRoundView.h"
-#define PI 3.14159265358979323846
-static inline float radians(double degrees)
-{
-    return degrees * PI / 180;
-}
+
+
 @implementation WZXRoundView
 {
     NSMutableArray * _dataArr;
     CGPoint _centerPt;
 }
+
 -(id)initWithFrame:(CGRect)frame
 {
     if (self == [super initWithFrame:frame])
@@ -70,7 +68,7 @@ static inline float radians(double degrees)
         
         CGContextSetFillColorWithColor(context,[color CGColor]);
         
-        CGContextAddArc(context, _centerPt.x, _centerPt.y, self.frame.size.width/2.0, radians(start), radians(([numStr floatValue]/sum)*360 + start), 0);
+        CGContextAddArc(context, _centerPt.x, _centerPt.y, self.frame.size.width/2.0, [self degreesToRadians:start], [self degreesToRadians:([numStr floatValue]/sum)*360 + start], 0);
         
         CGContextClosePath(context);
         
@@ -88,5 +86,10 @@ static inline float radians(double degrees)
     [dic setObject:color forKey:@"color"];
     [_dataArr addObject:dic];
     [self setNeedsDisplay];
+}
+
+-(CGFloat)degreesToRadians:(CGFloat)degrees
+{
+    return degrees * M_PI / 180;
 }
 @end
